@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --bg: #F5F1E8;
@@ -707,6 +708,82 @@
     animation: pulse 2s infinite;
   }
 
+  .storage-badge.cloud {
+    color: var(--p2);
+    border-color: var(--p2);
+    background: rgba(94, 126, 75, 0.08);
+  }
+
+  /* ===== AUTH PANEL ===== */
+  .auth-panel {
+    border: 1px solid var(--ink);
+    background: var(--surface);
+    margin-bottom: 32px;
+    padding: 18px 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .auth-panel.hidden { display: none; }
+
+  .auth-copy {
+    min-width: 220px;
+  }
+
+  .auth-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .auth-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .auth-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .auth-form input {
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    padding: 9px 10px;
+    min-width: 170px;
+    font-family: 'Noto Sans SC', system-ui, sans-serif;
+    font-size: 13px;
+    outline: none;
+  }
+
+  .auth-form input:focus {
+    border-color: var(--ink);
+    background: var(--surface);
+  }
+
+  .auth-primary {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  .auth-primary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .auth-form .hidden { display: none; }
+
   /* ===== TOAST ===== */
   .toast {
     position: fixed;
@@ -811,6 +888,17 @@
     }
     .footer-actions { width: 100%; justify-content: flex-start; }
     .header-meta-right { width: 100%; justify-content: flex-start; }
+    .auth-panel {
+      grid-template-columns: 1fr;
+      padding: 16px;
+    }
+    .auth-form {
+      justify-content: flex-start;
+    }
+    .auth-form input {
+      flex: 1 1 100%;
+      min-width: 0;
+    }
   }
 </style>
 </head>
@@ -832,6 +920,21 @@
       <h1>SUB·<span class="alt">42.195</span></h1>
       <p class="header-sub">三个月，从重启到完赛——15 周训练日志。每次跑完点亮一个方块，注意听身体的信号，享受过程。</p>
     </header>
+
+    <!-- AUTH -->
+    <section class="auth-panel" id="authPanel">
+      <div class="auth-copy">
+        <div class="auth-title" id="authTitle">云端同步未配置</div>
+        <div class="auth-sub" id="authSub">填入 Supabase 项目配置后，可登录并跨设备同步训练记录。</div>
+      </div>
+      <div class="auth-form" id="authForm">
+        <input id="emailInput" type="email" autocomplete="email" placeholder="邮箱">
+        <input id="passwordInput" type="password" autocomplete="current-password" placeholder="密码">
+        <button class="action-btn auth-primary" id="signInBtn">登录</button>
+        <button class="action-btn" id="signUpBtn">注册</button>
+        <button class="action-btn hidden" id="signOutBtn">退出</button>
+      </div>
+    </section>
 
     <!-- COUNTDOWN -->
     <div class="countdown-banner">
@@ -917,6 +1020,13 @@
   <div id="toast" class="toast"></div>
 
 <script>
+  // ===== SUPABASE CONFIG =====
+  // 1) Create a free Supabase project.
+  // 2) Run supabase/schema.sql in the SQL Editor.
+  // 3) Paste your Project URL and anon public key below.
+  const SUPABASE_URL = 'https://gboaayxmxuygvcyyjovx.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_7xrKT7EZicLvhWqmqo_Vdw__Vxrqvd8';
+
   // ===== TRAINING PLAN DATA =====
   const RACE_DATE = new Date('2026-08-30T00:00:00');
   const START_DATE = new Date('2026-05-18T00:00:00');
@@ -1070,33 +1180,35 @@
   let state = {}; // { 'w1d1': { done: true, notes: '...' } }
   let activePhase = 1;
   const STORAGE_KEY = 'marathon_log_v2';
+  const CLOUD_TABLE = 'marathon_logs';
+  const hasSupabaseConfig = SUPABASE_URL && SUPABASE_ANON_KEY;
+  const supabaseClient = hasSupabaseConfig && window.supabase
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+  let currentUser = null;
 
   // ===== ROBUST STORAGE WITH FALLBACK =====
-  // Tries: 1) Claude persistent storage  2) localStorage  3) memory only
+  // Logged in: Supabase. Logged out: localStorage. Last resort: memory.
   const Storage = {
     type: 'unknown',
     typeLabel: '检测中…',
     memoryStore: {},
     
     async init() {
-      // Try Claude's persistent storage
-      if (typeof window.storage !== 'undefined' && window.storage && typeof window.storage.set === 'function') {
+      if (supabaseClient) {
         try {
-          const testKey = '__storage_test__';
-          await window.storage.set(testKey, 'ok');
-          const test = await window.storage.get(testKey);
-          if (test && test.value === 'ok') {
-            try { await window.storage.delete(testKey); } catch(e) {}
-            this.type = 'persistent';
-            this.typeLabel = '云端持久化';
+          const { data } = await supabaseClient.auth.getSession();
+          currentUser = data.session?.user || null;
+          if (currentUser) {
+            this.type = 'cloud';
+            this.typeLabel = '云端同步';
             return;
           }
         } catch (e) {
-          console.warn('Persistent storage unavailable:', e.message);
+          console.warn('Supabase unavailable:', e.message);
         }
       }
       
-      // Try localStorage
       try {
         const testKey = '__storage_test__';
         localStorage.setItem(testKey, 'ok');
@@ -1118,9 +1230,14 @@
     
     async get(key) {
       try {
-        if (this.type === 'persistent') {
-          const result = await window.storage.get(key);
-          return result ? result.value : null;
+        if (this.type === 'cloud' && currentUser) {
+          const { data, error } = await supabaseClient
+            .from(CLOUD_TABLE)
+            .select('state')
+            .eq('user_id', currentUser.id)
+            .maybeSingle();
+          if (error) throw error;
+          return data?.state ? JSON.stringify(data.state) : null;
         } else if (this.type === 'local') {
           return localStorage.getItem(key);
         } else {
@@ -1133,8 +1250,16 @@
     
     async set(key, value) {
       try {
-        if (this.type === 'persistent') {
-          await window.storage.set(key, value);
+        if (this.type === 'cloud' && currentUser) {
+          const parsed = JSON.parse(value || '{}');
+          const { error } = await supabaseClient
+            .from(CLOUD_TABLE)
+            .upsert({
+              user_id: currentUser.id,
+              state: parsed,
+              updated_at: new Date().toISOString()
+            }, { onConflict: 'user_id' });
+          if (error) throw error;
           return true;
         } else if (this.type === 'local') {
           localStorage.setItem(key, value);
@@ -1150,6 +1275,35 @@
     }
   };
 
+  function getLocalState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function setLocalState(nextState) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState || {}));
+    } catch (e) {
+      console.warn('Local save failed:', e.message);
+    }
+  }
+
+  function isEmptyState(value) {
+    return !value || Object.keys(value).length === 0;
+  }
+
+  function escapeHtml(value) {
+    return String(value || '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
   // ===== STATE LOAD / SAVE =====
   async function loadState() {
     const data = await Storage.get(STORAGE_KEY);
@@ -1161,6 +1315,15 @@
       }
     } else {
       state = {};
+    }
+
+    if (Storage.type === 'cloud' && isEmptyState(state)) {
+      const localState = getLocalState();
+      if (!isEmptyState(localState)) {
+        state = localState;
+        await saveState(false);
+        showToast('✓ 本地记录已迁移到云端');
+      }
     }
   }
 
@@ -1174,10 +1337,11 @@
     toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
   }
 
-  async function saveState() {
+  async function saveState(showSavedToast = true) {
     const ok = await Storage.set(STORAGE_KEY, JSON.stringify(state));
     if (ok) {
-      showToast('✓ 已保存');
+      if (Storage.type === 'cloud') setLocalState(state);
+      if (showSavedToast) showToast(Storage.type === 'cloud' ? '✓ 已同步' : '✓ 已保存');
     } else {
       showToast('⚠ 保存失败 · 请导出备份', true);
     }
@@ -1433,6 +1597,8 @@
   async function init() {
     await Storage.init();
     updateStorageBadge();
+    updateAuthPanel();
+    setupAuth();
     await loadState();
 
     // auto-jump to current phase
@@ -1462,6 +1628,50 @@
     if (!badge) return;
     badge.textContent = `存储: ${Storage.typeLabel}`;
     badge.className = 'storage-badge ' + Storage.type;
+  }
+
+  function updateAuthPanel() {
+    const title = document.getElementById('authTitle');
+    const sub = document.getElementById('authSub');
+    const email = document.getElementById('emailInput');
+    const password = document.getElementById('passwordInput');
+    const signIn = document.getElementById('signInBtn');
+    const signUp = document.getElementById('signUpBtn');
+    const signOut = document.getElementById('signOutBtn');
+
+    if (!hasSupabaseConfig || !supabaseClient) {
+      title.textContent = '云端同步未配置';
+      sub.textContent = '填入 Supabase 项目配置后，可登录并跨设备同步训练记录。';
+      email.disabled = true;
+      password.disabled = true;
+      signIn.disabled = true;
+      signUp.disabled = true;
+      signOut.classList.add('hidden');
+      return;
+    }
+
+    email.disabled = false;
+    password.disabled = false;
+    signIn.disabled = false;
+    signUp.disabled = false;
+
+    if (currentUser) {
+      title.textContent = '云端同步已开启';
+      sub.innerHTML = `当前账号：${escapeHtml(currentUser.email)}。训练记录会自动同步。`;
+      email.classList.add('hidden');
+      password.classList.add('hidden');
+      signIn.classList.add('hidden');
+      signUp.classList.add('hidden');
+      signOut.classList.remove('hidden');
+    } else {
+      title.textContent = '登录后云端同步';
+      sub.textContent = '未登录时仍保存在本机浏览器；登录后会把本地记录迁移到云端。';
+      email.classList.remove('hidden');
+      password.classList.remove('hidden');
+      signIn.classList.remove('hidden');
+      signUp.classList.remove('hidden');
+      signOut.classList.add('hidden');
+    }
   }
 
   // ===== EXPORT / IMPORT =====
@@ -1525,6 +1735,92 @@
 
   document.getElementById('exportBtn').addEventListener('click', exportData);
   document.getElementById('importBtn').addEventListener('click', triggerImport);
+
+  function readAuthFields() {
+    const email = document.getElementById('emailInput').value.trim();
+    const password = document.getElementById('passwordInput').value;
+    if (!email || !password) {
+      showToast('请输入邮箱和密码', true);
+      return null;
+    }
+    if (password.length < 6) {
+      showToast('密码至少 6 位', true);
+      return null;
+    }
+    return { email, password };
+  }
+
+  function setupAuth() {
+    const signIn = document.getElementById('signInBtn');
+    const signUp = document.getElementById('signUpBtn');
+    const signOut = document.getElementById('signOutBtn');
+
+    signIn.addEventListener('click', async () => {
+      if (!supabaseClient) return;
+      const fields = readAuthFields();
+      if (!fields) return;
+      const { data, error } = await supabaseClient.auth.signInWithPassword(fields);
+      if (error) {
+        showToast('登录失败：' + error.message, true);
+        return;
+      }
+      currentUser = data.user;
+      Storage.type = 'cloud';
+      Storage.typeLabel = '云端同步';
+      updateStorageBadge();
+      updateAuthPanel();
+      await loadState();
+      renderStats();
+      renderPhaseContent();
+      showToast('✓ 已登录并同步');
+    });
+
+    signUp.addEventListener('click', async () => {
+      if (!supabaseClient) return;
+      const fields = readAuthFields();
+      if (!fields) return;
+      const { data, error } = await supabaseClient.auth.signUp(fields);
+      if (error) {
+        showToast('注册失败：' + error.message, true);
+        return;
+      }
+      if (data.user && data.session) {
+        currentUser = data.user;
+        Storage.type = 'cloud';
+        Storage.typeLabel = '云端同步';
+        updateStorageBadge();
+        updateAuthPanel();
+        await saveState(false);
+        showToast('✓ 已注册并开启同步');
+      } else {
+        showToast('请到邮箱确认注册');
+      }
+    });
+
+    signOut.addEventListener('click', async () => {
+      if (!supabaseClient) return;
+      await supabaseClient.auth.signOut();
+      currentUser = null;
+      await Storage.init();
+      updateStorageBadge();
+      updateAuthPanel();
+      await loadState();
+      renderStats();
+      renderPhaseContent();
+      showToast('已退出，改为本地保存');
+    });
+
+    if (supabaseClient) {
+      supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+        const nextUser = session?.user || null;
+        if (nextUser?.id === currentUser?.id) return;
+        currentUser = nextUser;
+        await Storage.init();
+        updateStorageBadge();
+        updateAuthPanel();
+      });
+    }
+  }
 
   init();
 </script>
