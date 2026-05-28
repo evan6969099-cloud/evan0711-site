@@ -1,51 +1,1532 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>evan0711.dpdns.org</title>
-    <style>
-      :root {
-        color-scheme: light dark;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: #f5f7fb;
-        color: #172033;
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>马拉松训练日志 · Sub5 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F1E8;
+    --bg-grain: #EDE6D5;
+    --surface: #FFFFFF;
+    --ink: #1A1612;
+    --ink-soft: #5A4F40;
+    --ink-mute: #8B7F6B;
+    --line: #DDD4BD;
+    --line-soft: #ECE5D2;
+    --accent: #C8341B;
+    --accent-deep: #9B2814;
+    --gold: #B68A1C;
+    --p1: #4B6E8A;
+    --p2: #5E7E4B;
+    --p3: #C58940;
+    --p4: #7D5B8E;
+    --race: #C8341B;
+    --done-bg: #F0EBDE;
+  }
 
-      body {
-        min-height: 100vh;
-        margin: 0;
-        display: grid;
-        place-items: center;
-      }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-      main {
-        width: min(720px, calc(100% - 40px));
-        padding: 48px;
-        border: 1px solid #d9e0eb;
-        border-radius: 8px;
-        background: #ffffff;
-        box-shadow: 0 16px 48px rgba(23, 32, 51, 0.08);
-      }
+  body {
+    font-family: 'Noto Sans SC', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.5;
+    background-image: 
+      radial-gradient(circle at 20% 10%, rgba(200,52,27,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(75,110,138,0.04) 0%, transparent 40%);
+  }
 
-      h1 {
-        margin: 0 0 16px;
-        font-size: clamp(32px, 5vw, 56px);
-        line-height: 1;
-      }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
 
-      p {
-        margin: 0;
-        color: #526174;
-        font-size: 18px;
-        line-height: 1.6;
+  /* ===== HEADER ===== */
+  .header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .header-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  .header-meta .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin: 0 8px;
+    vertical-align: middle;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  h1 .alt {
+    font-family: 'Archivo Black', sans-serif;
+    color: var(--accent);
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 600px;
+  }
+
+  /* ===== STATS GRID ===== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    border: 1px solid var(--ink);
+    background: var(--surface);
+    margin-bottom: 48px;
+  }
+
+  .stat {
+    padding: 24px 20px;
+    border-right: 1px solid var(--line);
+    position: relative;
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 38px;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-value .unit {
+    font-size: 14px;
+    color: var(--ink-mute);
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  .stat-sub {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .stat .progress-bar {
+    margin-top: 10px;
+    height: 3px;
+    background: var(--line);
+    overflow: hidden;
+  }
+
+  .stat .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.6s ease;
+  }
+
+  /* ===== COUNTDOWN ===== */
+  .countdown-banner {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .countdown-banner .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .countdown-banner .race-day {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    margin-top: 4px;
+  }
+
+  .countdown-banner .days {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 48px;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .countdown-banner .days-label {
+    font-size: 12px;
+    opacity: 0.6;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ===== PHASE NAV ===== */
+  .phase-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    margin-bottom: 40px;
+  }
+
+  .phase-tab {
+    padding: 14px 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .phase-tab:hover { background: var(--bg-grain); }
+
+  .phase-tab.active { 
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .phase-tab .num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 24px;
+    line-height: 1;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .phase-tab .name {
+    font-size: 13px;
+    font-weight: 500;
+    display: block;
+  }
+
+  .phase-tab .weeks {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-top: 4px;
+    letter-spacing: 0.1em;
+  }
+
+  .phase-tab.active .weeks { color: rgba(255,255,255,0.6); }
+
+  .phase-tab .swatch {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+  }
+
+  /* ===== WEEK CARDS ===== */
+  .phase-section {
+    display: none;
+    animation: fadeIn 0.3s;
+  }
+
+  .phase-section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .week-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+
+  .week-card:hover { border-color: var(--ink-soft); }
+
+  .week-card.current {
+    border-color: var(--accent);
+    box-shadow: 0 4px 24px rgba(200,52,27,0.08);
+  }
+
+  .week-card.cutback { background: linear-gradient(180deg, var(--surface) 0%, var(--bg-grain) 100%); }
+
+  .week-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: relative;
+  }
+
+  .week-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+  }
+
+  .week-card[data-phase="1"] .week-header::before { background: var(--p1); }
+  .week-card[data-phase="2"] .week-header::before { background: var(--p2); }
+  .week-card[data-phase="3"] .week-header::before { background: var(--p3); }
+  .week-card[data-phase="4"] .week-header::before { background: var(--p4); }
+
+  .week-title-block { display: flex; align-items: baseline; gap: 16px; }
+
+  .week-number {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  .week-info { display: flex; flex-direction: column; gap: 2px; }
+
+  .week-label {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .week-dates {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+  }
+
+  .week-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 12px;
+  }
+
+  .week-tag {
+    padding: 4px 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--bg-grain);
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+
+  .week-tag.cutback-tag { background: #F4ECE0; color: var(--p3); border-color: #E5D5B5; }
+  .week-tag.peak-tag { background: #FBE5DE; color: var(--accent-deep); border-color: #F0C7BB; }
+  .week-tag.taper-tag { background: #ECE4F4; color: var(--p4); border-color: #D6C5E5; }
+  .week-tag.race-tag { background: var(--accent); color: white; border-color: var(--accent-deep); }
+
+  .week-volume {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+  }
+
+  .week-volume .unit {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-weight: normal;
+  }
+
+  .week-progress {
+    height: 2px;
+    background: var(--line-soft);
+    position: relative;
+  }
+
+  .week-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.4s;
+  }
+
+  /* ===== WORKOUTS ===== */
+  .workouts { padding: 8px 0; }
+
+  .workout {
+    display: grid;
+    grid-template-columns: 40px 60px 1fr auto auto;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--line-soft);
+    transition: background 0.15s;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .workout:last-child { border-bottom: none; }
+
+  .workout:hover { background: var(--bg-grain); }
+
+  .workout.done { background: var(--done-bg); }
+
+  .workout.done .workout-content { opacity: 0.5; }
+
+  .workout.done .workout-content .type,
+  .workout.done .workout-content .desc { text-decoration: line-through; }
+
+  .check {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--ink-soft);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .check:hover { border-color: var(--accent); transform: scale(1.05); }
+
+  .workout.done .check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .check svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .workout.done .check svg { opacity: 1; }
+
+  .day-marker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+
+  .day-marker .day-name {
+    display: block;
+    font-weight: 500;
+    color: var(--ink);
+    font-size: 13px;
+  }
+
+  .workout-content { flex: 1; min-width: 0; }
+
+  .workout-content .type {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .workout-content .type .badge {
+    display: inline-block;
+    padding: 1px 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    background: var(--ink);
+    color: var(--bg);
+    margin-left: 6px;
+    vertical-align: middle;
+    text-decoration: none !important;
+  }
+
+  .workout-content .type .badge.long { background: var(--accent); }
+  .workout-content .type .badge.tempo { background: var(--p3); }
+  .workout-content .type .badge.race { background: var(--gold); color: white; }
+  .workout-content .type .badge.recovery { background: var(--p2); color: white; }
+
+  .workout-content .desc {
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .distance {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px;
+    color: var(--ink);
+    text-align: right;
+  }
+
+  .distance .unit {
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-family: 'DM Mono', monospace;
+    font-weight: normal;
+    margin-left: 2px;
+  }
+
+  .notes-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .notes-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .notes-btn.has-note { 
+    background: var(--gold); 
+    border-color: var(--gold); 
+    color: white;
+  }
+
+  .notes-section {
+    grid-column: 1 / -1;
+    padding: 0 0 12px 116px;
+    display: none;
+  }
+
+  .notes-section.open { display: block; }
+
+  .notes-section textarea {
+    width: 100%;
+    background: var(--bg-grain);
+    border: 1px solid var(--line);
+    padding: 10px 12px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    resize: vertical;
+    min-height: 60px;
+    line-height: 1.5;
+  }
+
+  .notes-section textarea:focus {
+    outline: none;
+    border-color: var(--ink-soft);
+    background: var(--surface);
+  }
+
+  .notes-section .save-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .saved-indicator { color: var(--p2); opacity: 0; transition: opacity 0.3s; }
+  .saved-indicator.show { opacity: 1; }
+
+  /* ===== TIPS BOX ===== */
+  .tips-box {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .tips-box h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tips-box h3::before {
+    content: '';
+    width: 6px;
+    height: 18px;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .tips-box ul {
+    list-style: none;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .tips-box li {
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 4px;
+    opacity: 0.85;
+  }
+
+  .tips-box li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    margin-top: 60px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-quote {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ink);
+    font-style: italic;
+    max-width: 500px;
+    line-height: 1.4;
+  }
+
+  .footer-quote .em { color: var(--accent); font-style: normal; }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-mute);
+    padding: 8px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== STORAGE BADGE ===== */
+  .header-meta-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .storage-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-soft);
+    border-radius: 2px;
+  }
+
+  .storage-badge.persistent {
+    color: var(--p2);
+    border-color: var(--p2);
+    background: rgba(94, 126, 75, 0.06);
+  }
+  .storage-badge.local {
+    color: var(--p1);
+    border-color: var(--p1);
+    background: rgba(75, 110, 138, 0.06);
+  }
+  .storage-badge.memory {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(200, 52, 27, 0.08);
+    animation: pulse 2s infinite;
+  }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 12px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    border-left: 3px solid var(--p2);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    z-index: 1000;
+    max-width: 300px;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .toast.error {
+    border-left-color: var(--accent);
+  }
+
+  /* ===== FOOTER ACTIONS ===== */
+  .footer-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    padding: 8px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .action-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+    background: var(--surface);
+  }
+
+  .action-btn svg { flex-shrink: 0; }
+
+  /* ===== LOADING ===== */
+  #loading {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  #loading.hidden { display: none; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 700px) {
+    .container { padding: 20px 16px 60px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stat { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .stat:nth-child(2n) { border-right: none; }
+    .phase-nav { grid-template-columns: 1fr 1fr; }
+    .workout {
+      grid-template-columns: 28px 50px 1fr auto;
+      gap: 10px;
+      padding: 12px 16px;
+    }
+    .distance { display: none; }
+    .week-header { padding: 14px 16px; }
+    .notes-section { padding: 0 0 12px 88px; }
+    .countdown-banner .days { font-size: 36px; }
+    .toast { 
+      bottom: 16px; 
+      right: 16px; 
+      left: 16px; 
+      max-width: none;
+      font-size: 12px;
+      padding: 10px 14px;
+    }
+    .footer-actions { width: 100%; justify-content: flex-start; }
+    .header-meta-right { width: 100%; justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+  <div id="loading">载入训练数据…</div>
+
+  <div class="container">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-top">
+        <div class="header-meta">
+          <span class="dot"></span>BEIJING · 2026 SUMMER MARATHON BUILD
+        </div>
+        <div class="header-meta-right">
+          <span id="storageBadge" class="storage-badge">存储: 检测中…</span>
+          <span class="header-meta" id="todayStamp"></span>
+        </div>
+      </div>
+      <h1>SUB·<span class="alt">42.195</span></h1>
+      <p class="header-sub">三个月，从重启到完赛——15 周训练日志。每次跑完点亮一个方块，注意听身体的信号，享受过程。</p>
+    </header>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-banner">
+      <div>
+        <div class="label">比赛日 RACE DAY</div>
+        <div class="race-day">2026 / 08 / 30 · SUNDAY</div>
+      </div>
+      <div style="text-align: right;">
+        <div class="days" id="daysLeft">—</div>
+        <div class="days-label">DAYS REMAINING</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Completed</div>
+        <div class="stat-value"><span id="doneCount">0</span><span class="unit">/ 70</span></div>
+        <div class="stat-sub">训练完成数</div>
+        <div class="progress-bar"><div class="progress-fill" id="doneProgress" style="width:0%"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Distance</div>
+        <div class="stat-value"><span id="kmCount">0</span><span class="unit">/ 538 km</span></div>
+        <div class="stat-sub">累计跑量</div>
+        <div class="progress-bar"><div class="progress-fill" id="kmProgress" style="width:0%"></div></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Current Week</div>
+        <div class="stat-value" id="currentWeek">W1</div>
+        <div class="stat-sub" id="currentPhaseLabel">基础重建</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Streak</div>
+        <div class="stat-value"><span id="streakCount">0</span><span class="unit">连续</span></div>
+        <div class="stat-sub" id="lastDoneInfo">尚未开始</div>
+      </div>
+    </div>
+
+    <!-- TIPS BOX -->
+    <div class="tips-box">
+      <h3>北京夏季训练 · 高温与空气质量双重铁律</h3>
+      <ul>
+        <li>晨跑 5:30–7:00 或夜跑 20:00 之后，避开 10:00–18:00 高温时段</li>
+        <li>跑前必查 AQI：&lt; 100 放心跑、100–150 公园谨慎、&gt; 150 改室内</li>
+        <li>推荐路线：奥森公园 10K 跑道、朝阳公园、玉渊潭、亮马河、温榆河</li>
+        <li>易跑以"能正常说话"为准，配速会随训练自然变快——别盯死数字</li>
+        <li>跑前 5 分钟动态拉伸 + 跑后 5 分钟静态拉伸，能减 70% 受伤风险</li>
+        <li>缺训不补——错过 1 次直接跳过，宁可少跑也别中暑或受伤</li>
+      </ul>
+    </div>
+
+    <!-- PHASE NAV -->
+    <nav class="phase-nav" id="phaseNav"></nav>
+
+    <!-- PHASE SECTIONS -->
+    <main id="phaseContent"></main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-quote">
+        “完赛的人不是没撞墙——<span class="em">是撞了墙没放弃</span>。”
+      </div>
+      <div class="footer-actions">
+        <button class="action-btn" id="exportBtn" title="把所有打卡数据导出为 JSON 文件备份">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M8 2 V11 M4 7 L8 11 L12 7 M2 14 H14" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          导出备份
+        </button>
+        <button class="action-btn" id="importBtn" title="从备份文件恢复打卡记录">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M8 12 V3 M4 7 L8 3 L12 7 M2 14 H14" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          恢复备份
+        </button>
+        <button class="reset-btn" id="resetBtn">清空所有记录</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+<script>
+  // ===== TRAINING PLAN DATA =====
+  const RACE_DATE = new Date('2026-08-30T00:00:00');
+  const START_DATE = new Date('2026-05-18T00:00:00');
+
+  const PHASES = [
+    { id: 1, name: '基础重建', en: 'REBUILD', weeks: 'W1—W4', color: 'var(--p1)' },
+    { id: 2, name: '耐力构建', en: 'BUILD', weeks: 'W5—W8', color: 'var(--p2)' },
+    { id: 3, name: '里程巅峰', en: 'PEAK', weeks: 'W9—W13', color: 'var(--p3)' },
+    { id: 4, name: '减量比赛', en: 'TAPER & RACE', weeks: 'W14—W15', color: 'var(--p4)' }
+  ];
+
+  // Workouts: { day, type, badge, distance, pace, desc }
+  const PLAN = [
+    // ============ PHASE 1: REBUILD (W1-W4, 4 runs/week, easy pace 7:30-8:00) ============
+    { week: 1, phase: 1, dates: '5月18日 — 5月24日', label: '基础启动', volume: 18, tag: null,
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 4, pace: '7:30—8:00', desc: '能正常说话不喘' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 4, pace: '7:30—8:00', desc: '别管配速看体感' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 4, pace: '7:30—8:00', desc: '专注落地与呼吸' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 6, pace: '7:30—8:00', desc: '本周最长一次' }
+      ]
+    },
+    { week: 2, phase: 1, dates: '5月25日 — 5月31日', label: '里程小增', volume: 22, tag: null,
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 5, pace: '7:30—8:00', desc: '加 1 公里' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 5, pace: '7:30—8:00', desc: '热身别省' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 4, pace: '7:30—8:00', desc: '为周日储备' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 8, pace: '7:30—8:00', desc: '可分段 4+2+2' }
+      ]
+    },
+    { week: 3, phase: 1, dates: '6月1日 — 6月7日', label: '稳步推进', volume: 26, tag: null,
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 5, pace: '7:30—8:00', desc: '保持节奏' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 6, pace: '7:30—8:00', desc: '稍长一点' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 5, pace: '7:30—8:00', desc: '储备体力' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 10, pace: '7:30—8:00', desc: '首破双位数' }
+      ]
+    },
+    { week: 4, phase: 1, dates: '6月8日 — 6月14日', label: '减量周', volume: 20, tag: 'cutback',
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 4, pace: '7:30—8:00', desc: '放松身体' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 5, pace: '7:30—8:00', desc: '保持感觉' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 4, pace: '7:30—8:00', desc: '别加量' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 7, pace: '7:30—8:00', desc: '吸收训练' }
+      ]
+    },
+    // ============ PHASE 2: BUILD (W5-W8, 5 runs/week, easy pace 7:15-7:45) ============
+    { week: 5, phase: 2, dates: '6月15日 — 6月21日', label: '5 跑制启动', volume: 32, tag: null,
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 5, pace: '7:15—7:45', desc: '配速可略提' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 4, pace: '7:30—8:00', desc: '★新增·非常慢' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 6, pace: '7:15—7:45', desc: '中等距离' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 5, pace: '7:15—7:45', desc: '为长距储备' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 12, pace: '7:30—8:00', desc: '关键长距' }
+      ]
+    },
+    { week: 6, phase: 2, dates: '6月22日 — 6月28日', label: '稳定输出', volume: 36, tag: null,
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 6, pace: '7:15—7:45', desc: '舒服节奏' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 4, pace: '7:30—8:00', desc: '慢比快好' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 7, pace: '7:15—7:45', desc: '中长距离' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 4, pace: '7:15—7:45', desc: '储备状态' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 15, pace: '7:30—8:00', desc: '每 4K 走 30 秒' }
+      ]
+    },
+    { week: 7, phase: 2, dates: '6月29日 — 7月5日', label: '加入节奏跑', volume: 40, tag: null,
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 6, pace: '7:15—7:45', desc: '热身放松' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 4, pace: '7:30—8:00', desc: '别求快' },
+        { day: '周四', type: '节奏跑', badge: 'tempo', distance: 8, pace: '中 3K @ 6:30—6:45', desc: '前后各 2.5K 慢跑' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 5, pace: '7:15—7:45', desc: '恢复腿' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 17, pace: '7:30—8:00', desc: '练习吃能量胶' }
+      ]
+    },
+    { week: 8, phase: 2, dates: '7月6日 — 7月12日', label: '减量周', volume: 28, tag: 'cutback',
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 5, pace: '7:15—7:45', desc: '放松腿脚' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 3, pace: '7:30—8:00', desc: '极慢' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 6, pace: '7:15—7:45', desc: '保持感觉' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 3, pace: '7:15—7:45', desc: '充分休息' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 11, pace: '7:30—8:00', desc: '消化前 3 周' }
+      ]
+    },
+    // ============ PHASE 3: PEAK (W9-W13, 5 runs/week, easy pace 7:00-7:30) ============
+    { week: 9, phase: 3, dates: '7月13日 — 7月19日', label: '首破半马', volume: 44, tag: null,
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 6, pace: '7:00—7:30', desc: '配速自然变快' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 4, pace: '7:15—7:45', desc: '保护腿脚' },
+        { day: '周四', type: '节奏跑', badge: 'tempo', distance: 8, pace: '中 3K @ 6:15—6:30', desc: '心率别爆' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 5, pace: '7:00—7:30', desc: '为里程碑储备' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 21, pace: '7:00—7:30', desc: '首次半马距离 ★' }
+      ]
+    },
+    { week: 10, phase: 3, dates: '7月20日 — 7月26日', label: '突破新长度', volume: 49, tag: null,
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 7, pace: '7:00—7:30', desc: '步频 170+' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 5, pace: '7:15—7:45', desc: '慢' },
+        { day: '周四', type: '节奏跑', badge: 'tempo', distance: 8, pace: '中 4K @ 6:15—6:30', desc: '感受比赛配速' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 5, pace: '7:00—7:30', desc: '彻底放松' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 24, pace: '7:00—7:30', desc: '比半马多 3K' }
+      ]
+    },
+    { week: 11, phase: 3, dates: '7月27日 — 8月2日', label: '减量周', volume: 35, tag: 'cutback',
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 6, pace: '7:00—7:30', desc: '调整状态' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 4, pace: '7:15—7:45', desc: '深度恢复' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 6, pace: '7:00—7:30', desc: '不练强度' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 4, pace: '7:00—7:30', desc: '充分休息' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 15, pace: '7:00—7:30', desc: '为巅峰储备' }
+      ]
+    },
+    { week: 12, phase: 3, dates: '8月3日 — 8月9日', label: '冲击 27km', volume: 52, tag: 'peak',
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 7, pace: '7:00—7:30', desc: '高温要慢' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 5, pace: '7:15—7:45', desc: '保护腿' },
+        { day: '周四', type: '节奏跑', badge: 'tempo', distance: 8, pace: '中 4K @ 6:15—6:30', desc: '最后一次强度' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 5, pace: '7:00—7:30', desc: '为长距准备' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 27, pace: '7:00—7:30', desc: '破 25K 心理关' }
+      ]
+    },
+    { week: 13, phase: 3, dates: '8月10日 — 8月16日', label: '巅峰长距 30K', volume: 53, tag: 'peak',
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 7, pace: '7:00—7:30', desc: '保护膝盖' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 4, pace: '7:15—7:45', desc: '慢' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 7, pace: '7:00—7:30', desc: '中量保持' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 5, pace: '7:00—7:30', desc: '极放松' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 30, pace: '7:00—7:30', desc: '★ 赛前最关键一跑' }
+      ]
+    },
+    // ============ PHASE 4: TAPER & RACE (W14-W15) ============
+    { week: 14, phase: 4, dates: '8月17日 — 8月23日', label: '开始减量', volume: 32, tag: 'taper',
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 6, pace: '6:45—7:15', desc: '减量开始' },
+        { day: '周三', type: '恢复跑', badge: 'recovery', distance: 4, pace: '7:00—7:30', desc: '腿要轻松' },
+        { day: '周四', type: '轻松跑', badge: null, distance: 6, pace: '6:45—7:15', desc: '保持手感' },
+        { day: '周六', type: '轻松跑', badge: null, distance: 3, pace: '6:45—7:15', desc: '别练新东西' },
+        { day: '周日', type: '长距离慢跑', badge: 'long', distance: 13, pace: '7:00—7:30', desc: '半马以内' }
+      ]
+    },
+    { week: 15, phase: 4, dates: '8月24日 — 8月30日', label: '比赛周', volume: 51.195, tag: 'race',
+      workouts: [
+        { day: '周二', type: '轻松跑', badge: null, distance: 4, pace: '6:45—7:15', desc: '彻底放松' },
+        { day: '周四', type: '抖腿跑', badge: null, distance: 3, pace: '7:00—7:30', desc: '找跑感即可' },
+        { day: '周六', type: '热身慢跑', badge: null, distance: 2, pace: '8:00+', desc: '5—10 分钟松腿' },
+        { day: '周日', type: '马拉松正赛', badge: 'race', distance: 42.195, pace: '7:00—7:15', desc: '★ RACE DAY · 前 21K 务必觉得太轻松' }
+      ]
+    }
+  ];
+
+  // ===== STATE =====
+  let state = {}; // { 'w1d1': { done: true, notes: '...' } }
+  let activePhase = 1;
+  const STORAGE_KEY = 'marathon_log_v2';
+
+  // ===== ROBUST STORAGE WITH FALLBACK =====
+  // Tries: 1) Claude persistent storage  2) localStorage  3) memory only
+  const Storage = {
+    type: 'unknown',
+    typeLabel: '检测中…',
+    memoryStore: {},
+    
+    async init() {
+      // Try Claude's persistent storage
+      if (typeof window.storage !== 'undefined' && window.storage && typeof window.storage.set === 'function') {
+        try {
+          const testKey = '__storage_test__';
+          await window.storage.set(testKey, 'ok');
+          const test = await window.storage.get(testKey);
+          if (test && test.value === 'ok') {
+            try { await window.storage.delete(testKey); } catch(e) {}
+            this.type = 'persistent';
+            this.typeLabel = '云端持久化';
+            return;
+          }
+        } catch (e) {
+          console.warn('Persistent storage unavailable:', e.message);
+        }
       }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>evan0711.dpdns.org</h1>
-      <p>This site is deployed with GitHub Pages.</p>
-    </main>
-  </body>
+      
+      // Try localStorage
+      try {
+        const testKey = '__storage_test__';
+        localStorage.setItem(testKey, 'ok');
+        const v = localStorage.getItem(testKey);
+        localStorage.removeItem(testKey);
+        if (v === 'ok') {
+          this.type = 'local';
+          this.typeLabel = '浏览器本地';
+          return;
+        }
+      } catch (e) {
+        console.warn('localStorage unavailable:', e.message);
+      }
+      
+      // Last resort: memory only
+      this.type = 'memory';
+      this.typeLabel = '⚠ 仅本次会话';
+    },
+    
+    async get(key) {
+      try {
+        if (this.type === 'persistent') {
+          const result = await window.storage.get(key);
+          return result ? result.value : null;
+        } else if (this.type === 'local') {
+          return localStorage.getItem(key);
+        } else {
+          return this.memoryStore[key] || null;
+        }
+      } catch (e) {
+        return null;
+      }
+    },
+    
+    async set(key, value) {
+      try {
+        if (this.type === 'persistent') {
+          await window.storage.set(key, value);
+          return true;
+        } else if (this.type === 'local') {
+          localStorage.setItem(key, value);
+          return true;
+        } else {
+          this.memoryStore[key] = value;
+          return true;
+        }
+      } catch (e) {
+        console.error('Save failed:', e);
+        return false;
+      }
+    }
+  };
+
+  // ===== STATE LOAD / SAVE =====
+  async function loadState() {
+    const data = await Storage.get(STORAGE_KEY);
+    if (data) {
+      try {
+        state = JSON.parse(data);
+      } catch (e) {
+        state = {};
+      }
+    } else {
+      state = {};
+    }
+  }
+
+  let toastTimer;
+  function showToast(message, isError = false) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.className = 'toast' + (isError ? ' error' : '') + ' show';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+
+  async function saveState() {
+    const ok = await Storage.set(STORAGE_KEY, JSON.stringify(state));
+    if (ok) {
+      showToast('✓ 已保存');
+    } else {
+      showToast('⚠ 保存失败 · 请导出备份', true);
+    }
+    return ok;
+  }
+
+  const keyOf = (w, d) => `w${w}d${d}`;
+
+  // ===== RENDER =====
+  function renderHeader() {
+    const today = new Date();
+    const dayNames = ['日','一','二','三','四','五','六'];
+    document.getElementById('todayStamp').textContent = 
+      `TODAY · ${today.getFullYear()}.${String(today.getMonth()+1).padStart(2,'0')}.${String(today.getDate()).padStart(2,'0')} · 周${dayNames[today.getDay()]}`;
+
+    const msPerDay = 1000*60*60*24;
+    const daysLeft = Math.max(0, Math.ceil((RACE_DATE - today) / msPerDay));
+    document.getElementById('daysLeft').textContent = daysLeft;
+  }
+
+  function getCurrentWeek() {
+    const today = new Date();
+    if (today < START_DATE) return 0;
+    const msPerWeek = 7*24*60*60*1000;
+    const week = Math.floor((today - START_DATE) / msPerWeek) + 1;
+    return Math.min(week, 15);
+  }
+
+  function renderStats() {
+    let done = 0, km = 0, totalKm = 0, totalWorkouts = 0;
+    PLAN.forEach(wk => {
+      wk.workouts.forEach((w, i) => {
+        totalWorkouts++;
+        totalKm += w.distance;
+        const k = keyOf(wk.week, i+1);
+        if (state[k]?.done) {
+          done++;
+          km += w.distance;
+        }
+      });
+    });
+
+    document.getElementById('doneCount').textContent = done;
+    document.getElementById('kmCount').textContent = km.toFixed(km % 1 === 0 ? 0 : 1);
+    document.getElementById('doneProgress').style.width = `${(done/totalWorkouts*100).toFixed(1)}%`;
+    document.getElementById('kmProgress').style.width = `${(km/totalKm*100).toFixed(1)}%`;
+
+    const cw = getCurrentWeek();
+    document.getElementById('currentWeek').textContent = cw === 0 ? '—' : `W${cw}`;
+    if (cw > 0 && cw <= 15) {
+      const phase = PLAN.find(p => p.week === cw).phase;
+      document.getElementById('currentPhaseLabel').textContent = PHASES[phase-1].name;
+    } else if (cw === 0) {
+      document.getElementById('currentPhaseLabel').textContent = '即将开始';
+    } else {
+      document.getElementById('currentPhaseLabel').textContent = '完赛！';
+    }
+
+    // Streak: count latest consecutive done workouts (chronologically)
+    let streak = 0, lastDoneIdx = -1, totalIdx = 0;
+    const flat = [];
+    PLAN.forEach(wk => {
+      wk.workouts.forEach((w, i) => {
+        flat.push({ key: keyOf(wk.week, i+1), week: wk.week, dayIdx: i });
+      });
+    });
+    for (let i = flat.length - 1; i >= 0; i--) {
+      if (state[flat[i].key]?.done) {
+        if (lastDoneIdx === -1) lastDoneIdx = i;
+        if (i === lastDoneIdx || flat[i+1] && state[flat[i+1].key]?.done) {
+          // continue streak only if also previous was done
+        }
+      }
+    }
+    // simpler streak: count back from last completed
+    let s = 0;
+    for (let i = flat.length - 1; i >= 0; i--) {
+      if (state[flat[i].key]?.done) {
+        s++;
+      } else if (s > 0) {
+        break;
+      }
+    }
+    document.getElementById('streakCount').textContent = s;
+
+    if (done === 0) {
+      document.getElementById('lastDoneInfo').textContent = '尚未开始';
+    } else {
+      document.getElementById('lastDoneInfo').textContent = `${done} 次完成 · 加油`;
+    }
+  }
+
+  function renderPhaseNav() {
+    const nav = document.getElementById('phaseNav');
+    nav.innerHTML = PHASES.map(p => `
+      <button class="phase-tab ${p.id === activePhase ? 'active' : ''}" data-phase="${p.id}">
+        <div class="swatch" style="background: ${p.color}"></div>
+        <span class="num">0${p.id}</span>
+        <span class="name">${p.name}</span>
+        <div class="weeks">${p.weeks}</div>
+      </button>
+    `).join('');
+    nav.querySelectorAll('.phase-tab').forEach(t => {
+      t.addEventListener('click', () => {
+        activePhase = parseInt(t.dataset.phase);
+        renderPhaseNav();
+        renderPhaseContent();
+      });
+    });
+  }
+
+  function renderPhaseContent() {
+    const container = document.getElementById('phaseContent');
+    const currentWeek = getCurrentWeek();
+    const weeksInPhase = PLAN.filter(w => w.phase === activePhase);
+
+    container.innerHTML = `
+      <section class="phase-section active">
+        ${weeksInPhase.map(wk => renderWeek(wk, currentWeek)).join('')}
+      </section>
+    `;
+
+    // bind events — only attach to .workout to avoid double-firing
+    container.querySelectorAll('.workout').forEach(wo => {
+      wo.addEventListener('click', async (e) => {
+        if (e.target.closest('.notes-btn')) return;
+        const wkNum = parseInt(wo.dataset.week);
+        const dayIdx = parseInt(wo.dataset.day);
+        const k = keyOf(wkNum, dayIdx);
+        state[k] = state[k] || {};
+        state[k].done = !state[k].done;
+        if (state[k].done) state[k].completedAt = new Date().toISOString();
+        await saveState();
+        renderPhaseContent();
+        renderStats();
+      });
+    });
+
+    container.querySelectorAll('.notes-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const wo = btn.closest('.workout');
+        const section = wo.nextElementSibling;
+        if (section && section.classList.contains('notes-section')) {
+          section.classList.toggle('open');
+          if (section.classList.contains('open')) {
+            section.querySelector('textarea').focus();
+          }
+        }
+      });
+    });
+
+    container.querySelectorAll('.notes-section textarea').forEach(ta => {
+      let saveTimer;
+      ta.addEventListener('input', () => {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(async () => {
+          const wkNum = parseInt(ta.dataset.week);
+          const dayIdx = parseInt(ta.dataset.day);
+          const k = keyOf(wkNum, dayIdx);
+          state[k] = state[k] || {};
+          state[k].notes = ta.value;
+          await saveState();
+          const ind = ta.parentElement.querySelector('.saved-indicator');
+          ind.classList.add('show');
+          setTimeout(() => ind.classList.remove('show'), 1500);
+          // update note indicator on button
+          const btn = ta.closest('.notes-section').previousElementSibling.querySelector('.notes-btn');
+          if (ta.value.trim()) btn.classList.add('has-note');
+          else btn.classList.remove('has-note');
+        }, 400);
+      });
+    });
+  }
+
+  function renderWeek(wk, currentWeek) {
+    const doneInWk = wk.workouts.filter((_, i) => state[keyOf(wk.week, i+1)]?.done).length;
+    const pct = (doneInWk / wk.workouts.length * 100).toFixed(0);
+    const isCurrent = wk.week === currentWeek;
+    const isCutback = wk.tag === 'cutback';
+    
+    let tagHtml = '';
+    if (wk.tag === 'cutback') tagHtml = '<span class="week-tag cutback-tag">CUTBACK</span>';
+    else if (wk.tag === 'peak') tagHtml = '<span class="week-tag peak-tag">PEAK</span>';
+    else if (wk.tag === 'taper') tagHtml = '<span class="week-tag taper-tag">TAPER</span>';
+    else if (wk.tag === 'race') tagHtml = '<span class="week-tag race-tag">★ RACE WEEK</span>';
+
+    return `
+      <article class="week-card ${isCurrent ? 'current' : ''} ${isCutback ? 'cutback' : ''}" data-phase="${wk.phase}">
+        <div class="week-header">
+          <div class="week-title-block">
+            <div class="week-number">W${String(wk.week).padStart(2,'0')}</div>
+            <div class="week-info">
+              <div class="week-label">${wk.label}${isCurrent ? ' · 当前周' : ''}</div>
+              <div class="week-dates">${wk.dates}</div>
+            </div>
+          </div>
+          <div class="week-meta">
+            ${tagHtml}
+            <div class="week-volume">${wk.volume}<span class="unit">km</span></div>
+          </div>
+        </div>
+        <div class="week-progress"><div class="week-progress-fill" style="width:${pct}%"></div></div>
+        <div class="workouts">
+          ${wk.workouts.map((w, i) => renderWorkout(wk.week, i+1, w)).join('')}
+        </div>
+      </article>
+    `;
+  }
+
+  function renderWorkout(week, dayIdx, w) {
+    const k = keyOf(week, dayIdx);
+    const isDone = !!state[k]?.done;
+    const notes = state[k]?.notes || '';
+    const hasNote = notes.trim().length > 0;
+    const badgeMap = { long: 'LSD', tempo: 'TEMPO', race: 'RACE', recovery: 'RECOVERY' };
+    const badgeHtml = w.badge 
+      ? `<span class="badge ${w.badge}">${badgeMap[w.badge] || w.badge.toUpperCase()}</span>`
+      : '';
+
+    return `
+      <div class="workout ${isDone ? 'done' : ''}" data-week="${week}" data-day="${dayIdx}">
+        <div class="check">
+          <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="3">
+            <path d="M3 8 L7 12 L13 4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="day-marker">
+          <span class="day-name">${w.day}</span>
+        </div>
+        <div class="workout-content">
+          <div class="type">${w.type}${badgeHtml}</div>
+          <div class="desc">${w.pace} · ${w.desc}</div>
+        </div>
+        <div class="distance">${w.distance}<span class="unit">km</span></div>
+        <button class="notes-btn ${hasNote ? 'has-note' : ''}" title="训练笔记">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M2 2 H14 V14 H2 Z M5 5 H11 M5 8 H11 M5 11 H9" stroke="currentColor" stroke-width="1.2" fill="none"/>
+          </svg>
+        </button>
+      </div>
+      <div class="notes-section">
+        <textarea data-week="${week}" data-day="${dayIdx}" placeholder="今天感觉如何？实际配速、距离、身体反应、气温…">${notes}</textarea>
+        <div class="save-row">
+          <span>自动保存 · 可记录实际配速 / 心率 / 身体反应</span>
+          <span class="saved-indicator">✓ 已保存</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // ===== INIT =====
+  async function init() {
+    await Storage.init();
+    updateStorageBadge();
+    await loadState();
+
+    // auto-jump to current phase
+    const cw = getCurrentWeek();
+    if (cw > 0 && cw <= 15) {
+      const wk = PLAN.find(w => w.week === cw);
+      if (wk) activePhase = wk.phase;
+    }
+
+    renderHeader();
+    renderStats();
+    renderPhaseNav();
+    renderPhaseContent();
+
+    document.getElementById('loading').classList.add('hidden');
+
+    // Warn if storage is memory-only
+    if (Storage.type === 'memory') {
+      setTimeout(() => {
+        showToast('⚠ 浏览器无可用存储 · 请用"导出备份"保存进度', true);
+      }, 600);
+    }
+  }
+
+  function updateStorageBadge() {
+    const badge = document.getElementById('storageBadge');
+    if (!badge) return;
+    badge.textContent = `存储: ${Storage.typeLabel}`;
+    badge.className = 'storage-badge ' + Storage.type;
+  }
+
+  // ===== EXPORT / IMPORT =====
+  function exportData() {
+    const payload = {
+      app: 'marathon_tracker',
+      version: 2,
+      exportedAt: new Date().toISOString(),
+      state: state
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
+    a.href = url;
+    a.download = `马拉松训练记录_${dateStr}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('✓ 已导出备份文件');
+  }
+
+  function triggerImport() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (ev) => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          const newState = parsed.state || parsed;
+          if (typeof newState !== 'object') throw new Error('格式不对');
+          if (!confirm('确认导入？这将覆盖当前所有打卡记录。')) return;
+          state = newState;
+          await saveState();
+          renderStats();
+          renderPhaseContent();
+          showToast('✓ 已恢复 ' + Object.keys(state).length + ' 条记录');
+        } catch (err) {
+          showToast('⚠ 文件格式错误', true);
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
+
+  document.getElementById('resetBtn').addEventListener('click', async () => {
+    if (confirm('确定要清空所有训练记录吗？此操作无法撤销。')) {
+      state = {};
+      await saveState();
+      renderStats();
+      renderPhaseContent();
+    }
+  });
+
+  document.getElementById('exportBtn').addEventListener('click', exportData);
+  document.getElementById('importBtn').addEventListener('click', triggerImport);
+
+  init();
+</script>
+</body>
 </html>
